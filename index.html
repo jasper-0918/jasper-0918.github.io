@@ -96,12 +96,7 @@ hr.div{border:none;border-top:1px solid var(--line);margin:0}
 .proj:hover{border-color:rgba(181,255,109,.35)}
 .proj:hover .proj-name{color:var(--accent)}
 .proj:hover .proj-arrow{opacity:1;transform:translate(0,0)}
-.proj:hover .video-placeholder{border-color:rgba(181,255,109,.2)}
-.proj:hover .play-ring{border-color:var(--accent);background:rgba(181,255,109,.07)}
-.proj:hover .play-tri{border-left-color:var(--accent)}
-
-/* thesis card doesn't dim on hover since PDF is interactive */
-.proj.thesis-proj:hover .pdf-wrap{border-color:rgba(181,255,109,.3)}
+.proj:hover .pdf-wrap{border-color:rgba(181,255,109,.25)}
 
 .proj-arrow{position:absolute;top:2.5rem;right:3rem;display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);opacity:0;transform:translate(-6px,6px);transition:all .28s var(--r)}
 .proj-arrow::after{content:'↗';font-size:.85rem}
@@ -116,10 +111,21 @@ hr.div{border:none;border-top:1px solid var(--line);margin:0}
 .proj-tagline{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--blue);margin-bottom:3rem}
 .proj-desc{font-size:1.0625rem;color:var(--sub-h);line-height:2.05;max-width:72ch;margin-bottom:3.5rem}
 
-/* ── VIDEO PLACEHOLDER ── */
-.video-placeholder{width:100%;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:3.5rem;transition:border-color .3s;position:relative;overflow:hidden}
-.video-placeholder::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.014) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.014) 1px,transparent 1px);background-size:40px 40px}
-.video-placeholder::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(181,255,109,0.03) 0%,transparent 55%)}
+/* ── VIDEO SLOT (placeholder + YouTube embed) ── */
+.video-slot{
+  width:100%;aspect-ratio:16/9;
+  background:var(--bg-2);border:1px solid var(--line);border-radius:3px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1.5rem;margin-bottom:3.5rem;transition:border-color .3s;
+  position:relative;overflow:hidden;
+}
+/* grid texture — placeholder only */
+.video-slot:not(.has-video)::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.014) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.014) 1px,transparent 1px);background-size:40px 40px}
+.video-slot:not(.has-video)::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(181,255,109,0.03) 0%,transparent 55%)}
+/* when a YouTube video is loaded */
+.video-slot.has-video{background:transparent;border-color:var(--line)}
+.video-slot.has-video iframe{width:100%;height:100%;border:none;display:block;position:absolute;inset:0}
+/* corner brackets */
 .vc{position:absolute;width:18px;height:18px;opacity:.4;transition:opacity .3s}
 .proj:hover .vc{opacity:.75}
 .vc.tl{top:14px;left:14px;border-top:1.5px solid var(--accent);border-left:1.5px solid var(--accent)}
@@ -130,6 +136,10 @@ hr.div{border:none;border-top:1px solid var(--line);margin:0}
 .play-tri{width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid var(--sub);margin-left:4px;transition:border-left-color .3s}
 .video-label{position:relative;z-index:1;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sub);text-align:center;line-height:2}
 .video-label strong{display:block;color:var(--sub-h);font-weight:400;margin-bottom:.2rem;font-size:.65rem}
+/* hover effects on placeholder state */
+.proj:hover .video-slot:not(.has-video){border-color:rgba(181,255,109,.2)}
+.proj:hover .play-ring{border-color:var(--accent);background:rgba(181,255,109,.07)}
+.proj:hover .play-tri{border-left-color:var(--accent)}
 
 /* ── PDF EMBED (thesis) ── */
 .pdf-section{margin-bottom:3.5rem}
@@ -359,11 +369,8 @@ footer a:hover{color:var(--accent)}
           portfolio, builds and demos projects, and grows smarter the more you use it.
           No subscriptions, no cloud APIs, no credit card — everything runs on your own CPU.
         </p>
-        <div class="video-placeholder">
-          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
-          <div class="play-ring"><div class="play-tri"></div></div>
-          <div class="video-label"><strong>Full Demo Video</strong>Coming soon — showcase in progress</div>
-        </div>
+        <!-- Set data-youtube to a full YouTube URL or video ID when ready -->
+        <div class="video-slot" data-youtube="" data-title="Full Demo Video"></div>
         <div class="proj-dl">What it does</div>
         <ul class="proj-bullets">
           <li><strong style="color:var(--text);font-weight:500">Chat AI Self</strong> — trained on your CV, notes, and Q&A pairs. Correct it and it permanently remembers.</li>
@@ -404,11 +411,8 @@ footer a:hover{color:var(--accent)}
           generates a personalised cover letter per job, sends applications with your CV attached,
           and monitors your Gmail inbox for replies — all viewable through a browser-based dashboard.
         </p>
-        <div class="video-placeholder">
-          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
-          <div class="play-ring"><div class="play-tri"></div></div>
-          <div class="video-label"><strong>Demo Video</strong>Coming soon — showcase in progress</div>
-        </div>
+        <!-- Set data-youtube to a full YouTube URL or video ID when ready -->
+        <div class="video-slot" data-youtube="" data-title="Demo Video"></div>
         <div class="proj-dl">What it does</div>
         <ul class="proj-bullets">
           <li>Scrapes Indeed PH, Jobstreet PH, and OnlineJobs.ph simultaneously using Playwright and BeautifulSoup.</li>
@@ -446,11 +450,8 @@ footer a:hover{color:var(--accent)}
           and no-credit-card-required tools. Identical functionality with zero API subscription costs.
           A practical proof that real automation doesn't require expensive infrastructure.
         </p>
-        <div class="video-placeholder">
-          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
-          <div class="play-ring"><div class="play-tri"></div></div>
-          <div class="video-label"><strong>Demo Video</strong>Coming soon — showcase in progress</div>
-        </div>
+        <!-- Set data-youtube to a full YouTube URL or video ID when ready -->
+        <div class="video-slot" data-youtube="" data-title="Demo Video"></div>
         <div class="proj-dl">Why it matters</div>
         <ul class="proj-bullets">
           <li>Identical core functionality — scraping, AI screening, cover letters, applying, inbox monitoring.</li>
@@ -485,11 +486,8 @@ footer a:hover{color:var(--accent)}
           mode and it handles everything: reading document content, recognising images,
           detecting duplicates, and filing correctly.
         </p>
-        <div class="video-placeholder">
-          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
-          <div class="play-ring"><div class="play-tri"></div></div>
-          <div class="video-label"><strong>Demo Video</strong>Coming soon — showcase in progress</div>
-        </div>
+        <!-- Set data-youtube to a full YouTube URL or video ID when ready -->
+        <div class="video-slot" data-youtube="" data-title="Demo Video"></div>
         <div class="proj-dl">What it does</div>
         <ul class="proj-bullets">
           <li>Classifies documents by content using <code>facebook/bart-large-mnli</code> via HuggingFace — no training data needed.</li>
@@ -511,8 +509,8 @@ footer a:hover{color:var(--accent)}
       </div>
     </a>
 
-    <!-- PROJECT 5: Thesis — PDF instead of video -->
-    <div class="proj thesis-proj rv" style="transition-delay:.14s">
+    <!-- PROJECT 5: Thesis — PDF displayed inline, click goes to GitHub -->
+    <a class="proj thesis-proj rv" href="https://github.com/jasper-0918/jasper-0918" target="_blank" rel="noopener" style="transition-delay:.14s">
       <div class="proj-inner">
         <div class="proj-meta">
           <span class="proj-badge thesis">Thesis — La Salle University Ozamiz</span>
@@ -530,16 +528,16 @@ footer a:hover{color:var(--accent)}
 
         <!-- PDF EMBED -->
         <div class="pdf-section" onclick="event.stopPropagation()">
-          <div class="pdf-label-row">
+          <div class="pdf-label-row" onclick="event.stopPropagation()">
             <span class="pdf-label">Full Thesis Paper</span>
             <a class="pdf-open-link"
-               href="https://raw.githubusercontent.com/jasper-0918/jasper-0918/main/Automatic%20Plastic%20Bottle%20Segregation%20System_compressed.pdf"
+               href="https://github.com/jasper-0918/jasper-0918"
                target="_blank" rel="noopener"
                onclick="event.stopPropagation()">
-              Open PDF ↗
+              View on GitHub ↗
             </a>
           </div>
-          <div class="pdf-wrap" id="pdf-wrap">
+          <div class="pdf-wrap" id="pdf-wrap" onclick="event.stopPropagation()">
             <iframe
               id="pdf-iframe"
               src="https://docs.google.com/viewer?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjasper-0918%2Fjasper-0918%2Fmain%2FAutomatic%2520Plastic%2520Bottle%2520Segregation%2520System_compressed.pdf&embedded=true"
@@ -550,10 +548,10 @@ footer a:hover{color:var(--accent)}
             <div class="pdf-fallback" id="pdf-fallback">
               <span>📄</span>
               <span>PDF preview unavailable in this browser.</span>
-              <a href="https://raw.githubusercontent.com/jasper-0918/jasper-0918/main/Automatic%20Plastic%20Bottle%20Segregation%20System_compressed.pdf"
+              <a href="https://github.com/jasper-0918/jasper-0918"
                  target="_blank" rel="noopener"
                  onclick="event.stopPropagation()">
-                Download / Open PDF directly ↗
+                View on GitHub ↗
               </a>
             </div>
           </div>
@@ -572,14 +570,11 @@ footer a:hover{color:var(--accent)}
           <span class="stag">On-device ML</span><span class="stag">Servo Control</span>
         </div>
       </div>
-      <div class="proj-footer" style="cursor:default">
-        <span class="proj-footer-label">Thesis Research Paper — La Salle University Ozamiz</span>
-        <a href="https://github.com/jasper-0918/jasper-0918" target="_blank" rel="noopener"
-           class="proj-footer-url" onclick="event.stopPropagation()">
-          github.com/jasper-0918/jasper-0918
-        </a>
+      <div class="proj-footer">
+        <span class="proj-footer-label">Click anywhere to view on GitHub</span>
+        <span class="proj-footer-url">github.com/jasper-0918/jasper-0918</span>
       </div>
-    </div>
+    </a>
 
   </div>
 </section>
@@ -862,28 +857,37 @@ const io=new IntersectionObserver(es=>{
 },{threshold:.04,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
-// PDF iframe error detection — show fallback if Google Docs viewer fails
-const iframe=document.getElementById('pdf-iframe');
-const fallback=document.getElementById('pdf-fallback');
-if(iframe){
-  // If iframe takes too long or errors, show fallback
-  let loaded=false;
-  iframe.addEventListener('load',()=>{ loaded=true; });
-  setTimeout(()=>{
-    if(!loaded){
-      iframe.style.display='none';
-      fallback.style.display='flex';
-    }
-  },8000);
-  iframe.addEventListener('error',()=>{
-    iframe.style.display='none';
-    fallback.style.display='flex';
-  });
+// ── YouTube slot initializer ──────────────────────────────────────────────
+// Parses any YouTube URL format or bare video ID.
+// To add a video: set data-youtube="https://youtu.be/VIDEO_ID" (or full watch URL)
+function ytId(url){
+  if(!url||!url.trim())return'';
+  const m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/))([A-Za-z0-9_-]{11})/);
+  return m?m[1]:url.trim();
 }
-
-// Thesis card: not a link so no pointer issues — just stop clicks on PDF from doing anything
-document.querySelectorAll('.thesis-proj').forEach(el=>{
-  el.addEventListener('click', e => e.preventDefault());
+document.querySelectorAll('.video-slot').forEach(slot=>{
+  const id=ytId(slot.dataset.youtube||'');
+  const title=slot.dataset.title||'Demo Video';
+  if(id){
+    // Has a YouTube video — render the embed
+    slot.classList.add('has-video');
+    slot.innerHTML=`<iframe
+      src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1"
+      title="${title}"
+      allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+    </iframe>`;
+  } else {
+    // No video yet — render the animated placeholder
+    slot.innerHTML=`
+      <span class="vc tl"></span><span class="vc tr"></span>
+      <span class="vc bl"></span><span class="vc br"></span>
+      <div class="play-ring"><div class="play-tri"></div></div>
+      <div class="video-label">
+        <strong>${title}</strong>
+        Coming soon — showcase in progress
+      </div>`;
+  }
 });
 
 // Contact form
