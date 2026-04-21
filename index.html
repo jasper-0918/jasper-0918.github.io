@@ -13,7 +13,7 @@
   --bg:#0a0a0b;--bg-1:#111214;--bg-2:#17191c;
   --line:rgba(255,255,255,0.08);--line-h:rgba(255,255,255,0.16);
   --text:#e8e4dc;--sub:#6b7280;--sub-h:#9ba3ae;
-  --accent:#b5ff6d;--accent-d:rgba(181,255,109,0.08);
+  --accent:#b5ff6d;--accent-d:rgba(181,255,109,0.08);--accent-m:rgba(181,255,109,0.15);
   --blue:#64b4ff;--blue-d:rgba(100,180,255,0.08);
   --display:'Barlow Condensed',sans-serif;
   --body:'Epilogue',sans-serif;
@@ -53,7 +53,7 @@ nav.stuck{background:rgba(10,10,11,.93);backdrop-filter:blur(20px);border-color:
 .btn-line{border:1px solid var(--line-h);color:var(--sub-h);background:transparent}
 .btn-line:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
 
-/* ── SECTIONS ── */
+/* ── SHARED ── */
 .wrap{max-width:1300px;margin:0 auto;padding:9rem 6vw}
 hr.div{border:none;border-top:1px solid var(--line);margin:0}
 .sec-head{display:flex;align-items:center;gap:1.5rem;margin-bottom:5.5rem}
@@ -73,8 +73,6 @@ hr.div{border:none;border-top:1px solid var(--line);margin:0}
 .ival a{color:var(--accent);transition:opacity .2s}
 .ival a:hover{opacity:.65}
 .status{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-d);border:1px solid rgba(181,255,109,.2);border-radius:100px;padding:.22rem .85rem;font-size:.6rem;color:var(--accent);font-family:var(--mono);letter-spacing:.1em}
-
-/* Value props */
 .value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);margin-top:5.5rem}
 .value-block{background:var(--bg-1);padding:2.75rem}
 .value-icon{font-size:1.5rem;margin-bottom:1.25rem}
@@ -94,154 +92,115 @@ hr.div{border:none;border-top:1px solid var(--line);margin:0}
 
 /* ── PROJECTS ── */
 .projects-stack{display:flex;flex-direction:column;gap:2px}
-
-/* The whole card is a link */
-.proj{
-  display:block;
-  background:var(--bg-1);
-  border:1px solid var(--line);
-  transition:border-color .3s;
-  color:inherit;
-  text-decoration:none;
-  cursor:pointer;
-  position:relative;
-}
+.proj{display:block;background:var(--bg-1);border:1px solid var(--line);transition:border-color .3s;color:inherit;cursor:pointer;position:relative}
 .proj:hover{border-color:rgba(181,255,109,.35)}
-.proj:hover .proj-arrow{opacity:1;transform:translate(0,0)}
 .proj:hover .proj-name{color:var(--accent)}
+.proj:hover .proj-arrow{opacity:1;transform:translate(0,0)}
 .proj:hover .video-placeholder{border-color:rgba(181,255,109,.2)}
-.proj:hover .play-ring{border-color:var(--accent);background:rgba(181,255,109,.08)}
-.proj:hover .play-triangle{border-left-color:var(--accent)}
+.proj:hover .play-ring{border-color:var(--accent);background:rgba(181,255,109,.07)}
+.proj:hover .play-tri{border-left-color:var(--accent)}
 
+/* thesis card doesn't dim on hover since PDF is interactive */
+.proj.thesis-proj:hover .pdf-wrap{border-color:rgba(181,255,109,.3)}
+
+.proj-arrow{position:absolute;top:2.5rem;right:3rem;display:flex;align-items:center;gap:.4rem;font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);opacity:0;transform:translate(-6px,6px);transition:all .28s var(--r)}
+.proj-arrow::after{content:'↗';font-size:.85rem}
 .proj-inner{padding:4.5rem 6vw}
-
-/* Arrow indicator top-right */
-.proj-arrow{
-  position:absolute;top:2.5rem;right:3rem;
-  font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--accent);
-  opacity:0;transform:translate(-4px,4px);
-  transition:all .25s var(--r);
-  display:flex;align-items:center;gap:.5rem;
-}
-.proj-arrow::after{content:'↗';font-size:.9rem}
-
 .proj-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
 .proj-badge{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.35rem 1rem;border-radius:100px;border:1px solid rgba(181,255,109,.3);color:var(--accent)}
 .proj-badge.thesis{border-color:rgba(100,180,255,.3);color:var(--blue)}
-.proj-badge.free{border-color:rgba(181,255,109,.5);color:var(--accent);background:var(--accent-d)}
+.proj-badge.free{background:var(--accent-d);border-color:rgba(181,255,109,.5);color:var(--accent)}
+.proj-badge.flagship{background:var(--accent-m);border-color:rgba(181,255,109,.6);color:var(--accent)}
 .proj-period{font-family:var(--mono);font-size:.6rem;color:var(--sub);letter-spacing:.1em}
-
-.proj-name{
-  font-family:var(--display);font-size:clamp(2.5rem,5.5vw,5rem);
-  font-weight:800;text-transform:uppercase;letter-spacing:-.01em;
-  color:var(--text);line-height:.92;margin-bottom:1rem;
-  transition:color .25s;
-}
+.proj-name{font-family:var(--display);font-size:clamp(2.5rem,5.5vw,5rem);font-weight:800;text-transform:uppercase;letter-spacing:-.01em;color:var(--text);line-height:.92;margin-bottom:1rem;transition:color .25s}
 .proj-tagline{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;color:var(--blue);margin-bottom:3rem}
-.proj-desc{font-size:1.0625rem;color:var(--sub-h);line-height:2.05;max-width:70ch;margin-bottom:3.5rem}
+.proj-desc{font-size:1.0625rem;color:var(--sub-h);line-height:2.05;max-width:72ch;margin-bottom:3.5rem}
 
 /* ── VIDEO PLACEHOLDER ── */
-.video-placeholder{
-  width:100%;
-  aspect-ratio:16/9;
-  background:var(--bg-2);
-  border:1px solid var(--line);
-  border-radius:3px;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:1.5rem;
-  margin-bottom:3.5rem;
-  transition:border-color .3s;
-  position:relative;
-  overflow:hidden;
+.video-placeholder{width:100%;aspect-ratio:16/9;background:var(--bg-2);border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:3.5rem;transition:border-color .3s;position:relative;overflow:hidden}
+.video-placeholder::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.014) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.014) 1px,transparent 1px);background-size:40px 40px}
+.video-placeholder::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(181,255,109,0.03) 0%,transparent 55%)}
+.vc{position:absolute;width:18px;height:18px;opacity:.4;transition:opacity .3s}
+.proj:hover .vc{opacity:.75}
+.vc.tl{top:14px;left:14px;border-top:1.5px solid var(--accent);border-left:1.5px solid var(--accent)}
+.vc.tr{top:14px;right:14px;border-top:1.5px solid var(--accent);border-right:1.5px solid var(--accent)}
+.vc.bl{bottom:14px;left:14px;border-bottom:1.5px solid var(--accent);border-left:1.5px solid var(--accent)}
+.vc.br{bottom:14px;right:14px;border-bottom:1.5px solid var(--accent);border-right:1.5px solid var(--accent)}
+.play-ring{width:68px;height:68px;border-radius:50%;border:1.5px solid var(--line-h);display:flex;align-items:center;justify-content:center;transition:all .3s;position:relative;z-index:1;background:rgba(255,255,255,0.02)}
+.play-tri{width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:18px solid var(--sub);margin-left:4px;transition:border-left-color .3s}
+.video-label{position:relative;z-index:1;font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sub);text-align:center;line-height:2}
+.video-label strong{display:block;color:var(--sub-h);font-weight:400;margin-bottom:.2rem;font-size:.65rem}
+
+/* ── PDF EMBED (thesis) ── */
+.pdf-section{margin-bottom:3.5rem}
+.pdf-label-row{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1rem;flex-wrap:wrap;gap:.75rem;
 }
-/* subtle grid pattern */
-.video-placeholder::before{
-  content:'';
+.pdf-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sub);display:flex;align-items:center;gap:.6rem}
+.pdf-label::before{content:'📄';font-size:.9rem}
+.pdf-open-link{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);
+  border:1px solid rgba(181,255,109,.3);border-radius:2px;
+  padding:.3rem .85rem;transition:all .2s;
+  /* stop the card click from navigating when clicking this */
+}
+.pdf-open-link:hover{background:var(--accent-d);border-color:var(--accent)}
+.pdf-wrap{
+  width:100%;height:620px;
+  border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;background:var(--bg-2);
+  position:relative;transition:border-color .3s;
+}
+.pdf-wrap iframe{width:100%;height:100%;border:none;display:block}
+/* fallback message inside pdf-wrap */
+.pdf-fallback{
+  display:none;
   position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size:40px 40px;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:1.25rem;text-align:center;padding:2rem;
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;
+  color:var(--sub);
 }
-/* corner accents */
-.video-placeholder::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(135deg, rgba(181,255,109,0.04) 0%, transparent 50%);
-}
-.play-ring{
-  width:64px;height:64px;border-radius:50%;
-  border:1.5px solid var(--line-h);
-  display:flex;align-items:center;justify-content:center;
-  transition:all .3s;
-  position:relative;z-index:1;
-  background:rgba(255,255,255,0.02);
-}
-.play-triangle{
-  width:0;height:0;
-  border-top:10px solid transparent;
-  border-bottom:10px solid transparent;
-  border-left:17px solid var(--sub);
-  margin-left:3px;
-  transition:border-left-color .3s;
-}
-.video-label{
-  position:relative;z-index:1;
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--sub);text-align:center;
-  line-height:1.8;
-}
-.video-label strong{display:block;color:var(--sub-h);margin-bottom:.25rem;font-weight:400}
+.pdf-fallback a{color:var(--accent);border-bottom:1px solid rgba(181,255,109,.3);padding-bottom:.1rem}
 
-/* corner brackets */
-.v-corner{position:absolute;width:16px;height:16px;opacity:.35}
-.v-corner.tl{top:12px;left:12px;border-top:1.5px solid var(--accent);border-left:1.5px solid var(--accent)}
-.v-corner.tr{top:12px;right:12px;border-top:1.5px solid var(--accent);border-right:1.5px solid var(--accent)}
-.v-corner.bl{bottom:12px;left:12px;border-bottom:1.5px solid var(--accent);border-left:1.5px solid var(--accent)}
-.v-corner.br{bottom:12px;right:12px;border-bottom:1.5px solid var(--accent);border-right:1.5px solid var(--accent)}
-
+/* ── PROJECT DETAIL ── */
 .proj-dl{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--sub);margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
 .proj-bullets{list-style:none;display:flex;flex-direction:column;gap:1.1rem;margin-bottom:3rem}
 .proj-bullets li{display:flex;gap:1.25rem;font-size:1rem;color:var(--sub-h);line-height:1.8}
 .proj-bullets li::before{content:'→';color:var(--accent);flex-shrink:0}
 code{font-family:var(--mono);font-size:.82em;color:var(--blue);background:rgba(100,180,255,.08);padding:.1em .35em;border-radius:2px}
-
 .proj-stack{display:flex;flex-wrap:wrap;gap:.6rem;padding-top:3rem;border-top:1px solid var(--line)}
 .stag{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;padding:.35rem .9rem;border:1px solid var(--line);border-radius:2px;color:var(--sub);transition:all .18s}
-.proj:hover .stag{border-color:rgba(181,255,109,.15)}
-
-/* footer bar */
-.proj-footer{
-  background:var(--bg-2);border-top:1px solid var(--line);
-  padding:1.35rem 6vw;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.proj-footer-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub)}
-.proj-footer-link{
-  font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--accent);
-  display:flex;align-items:center;gap:.5rem;
-}
-.proj-footer-link::after{content:'↗'}
+.proj:hover .stag{border-color:rgba(181,255,109,.14)}
+.proj-footer{background:var(--bg-2);border-top:1px solid var(--line);padding:1.35rem 6vw;display:flex;justify-content:space-between;align-items:center}
+.proj-footer-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sub)}
+.proj-footer-url{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--accent);display:flex;align-items:center;gap:.4rem}
+.proj-footer-url::after{content:'↗'}
 
 /* ── SKILLS ── */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;background:var(--line);border:1px solid var(--line)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:2px;background:var(--line);border:1px solid var(--line)}
 .skill-block{background:var(--bg-1);padding:3rem}
 .skill-lbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:1px solid var(--line)}
 .pills{display:flex;flex-wrap:wrap;gap:.6rem}
 .pill{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;padding:.35rem .9rem;border:1px solid var(--line);border-radius:2px;color:var(--sub);transition:all .18s}
 .pill:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-d)}
+/* category divider inside skills */
+.skills-section-label{
+  grid-column:1/-1;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--muted);padding:2.5rem 0 .5rem;
+  border-top:1px solid var(--line);margin-top:2px;
+  color:var(--sub);
+}
 
 /* ── CERTS ── */
-.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:2px;background:var(--line);border:1px solid var(--line)}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2px;background:var(--line);border:1px solid var(--line)}
 .cert-block{background:var(--bg-1);padding:3rem;transition:background .2s}
 .cert-block:hover{background:var(--bg-2)}
 .cert-issuer{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.85rem}
-.cert-name{font-family:var(--display);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--text);line-height:1.05;margin-bottom:.85rem}
+.cert-name{font-family:var(--display);font-size:1.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--text);line-height:1.05;margin-bottom:.85rem}
 .cert-date{font-family:var(--mono);font-size:.62rem;color:var(--sub)}
 
 /* ── CONTACT ── */
@@ -273,18 +232,17 @@ footer a:hover{color:var(--accent)}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
-  nav{padding:1.5rem}
-  .nav-items{display:none}
+  nav{padding:1.5rem}.nav-items{display:none}
   .wrap{padding:5rem 6vw}
   .about-grid,.contact-grid{grid-template-columns:1fr;gap:4rem}
   .about-copy p{font-size:1rem}
   .hero-bottom{flex-direction:column;align-items:flex-start}
   .hero-desc{text-align:left;max-width:100%}
-  .proj-inner{padding:2.5rem}
-  .proj-footer{padding-left:2.5rem;padding-right:2.5rem}
+  .proj-inner,.proj-footer{padding-left:1.75rem;padding-right:1.75rem}
   .exp-card{padding:2.5rem}
   .value-grid{grid-template-columns:1fr}
   .proj-arrow{display:none}
+  .pdf-wrap{height:420px}
 }
 </style>
 </head>
@@ -318,7 +276,7 @@ footer a:hover{color:var(--accent)}
     </div>
     <p class="hero-desc">
       I build Python automations that eliminate repetitive tasks —
-      job pipelines, file management, AI-assisted workflows.
+      AI assistants, job pipelines, file management, autonomous workflows.
       Computer Engineering graduate with hands-on projects
       and real internship experience.
     </p>
@@ -337,8 +295,8 @@ footer a:hover{color:var(--accent)}
     </div>
     <div class="about-grid">
       <div class="about-copy rv">
-        <p>I'm <strong>Jasper John Paitan</strong>, a Computer Engineering graduate from <strong>La Salle University – Ozamiz</strong>, Philippines. I specialise in building <strong>Python automation tools</strong> that turn repetitive manual work into hands-free processes.</p>
-        <p>My projects cover the full automation pipeline — web scraping, AI-powered document handling, job application workflows, and scheduled task runners. I use <strong>free and open-source tools wherever possible</strong>, so the systems I build don't depend on expensive APIs or subscriptions.</p>
+        <p>I'm <strong>Jasper John Paitan</strong>, a Computer Engineering graduate from <strong>La Salle University – Ozamiz</strong>, Philippines. I specialise in building <strong>Python automation tools</strong> and providing <strong>Virtual Assistant services</strong> that turn repetitive manual work into hands-free processes.</p>
+        <p>My projects cover the full automation stack — local AI assistants, autonomous job hunting pipelines, AI-powered file management, and scheduled task runners. I use <strong>free and open-source tools wherever possible</strong>, and I'm also proficient in no-code automation platforms like <strong>Zapier, Make, and n8n</strong>.</p>
         <p>I completed a <strong>Software Development Internship at Benpos Systems</strong> where I maintained live client software, resolved defects, and shipped documented updates — real professional workflow experience.</p>
       </div>
       <div class="rv" style="transition-delay:.12s">
@@ -355,12 +313,12 @@ footer a:hover{color:var(--accent)}
       <div class="value-block">
         <div class="value-icon">⚙️</div>
         <div class="value-title">Workflow Automation</div>
-        <div class="value-desc">I turn multi-step manual tasks into scripts that run on a schedule — no clicks, no babysitting, just results.</div>
+        <div class="value-desc">I turn multi-step manual tasks into scripts and no-code flows that run on a schedule — no clicks, no babysitting, just results.</div>
       </div>
       <div class="value-block">
         <div class="value-icon">🤖</div>
-        <div class="value-title">AI-Assisted Tools</div>
-        <div class="value-desc">I integrate free AI models (HuggingFace, local LLMs) into practical tools — classification, generation, decision-making.</div>
+        <div class="value-title">Local AI Systems</div>
+        <div class="value-desc">I build AI tools that run entirely on your own machine — private, free, no subscriptions, no data leaving your computer.</div>
       </div>
       <div class="value-block">
         <div class="value-icon">🔩</div>
@@ -385,92 +343,118 @@ footer a:hover{color:var(--accent)}
 
   <div class="projects-stack">
 
-    <!-- PROJECT 1: Job Bot -->
-    <a class="proj rv" href="https://github.com/jasper-0918/job-bot" target="_blank" rel="noopener">
+    <!-- PROJECT 1: Personal AI Assistant -->
+    <a class="proj rv" href="https://github.com/jasper-0918/personal-ai-assistant" target="_blank" rel="noopener">
       <span class="proj-arrow">View on GitHub</span>
       <div class="proj-inner">
         <div class="proj-meta">
-          <span class="proj-badge">Automation · Python</span>
-          <span class="proj-period">Personal Project · 2025</span>
+          <span class="proj-badge flagship">⭐ Featured Project · 2026</span>
+          <span class="proj-period">Python · Ollama · Streamlit · ChromaDB</span>
         </div>
-        <h3 class="proj-name">Autonomous Job<br>Hunting Bot</h3>
-        <p class="proj-tagline">// END-TO-END JOB APPLICATION PIPELINE · ZERO MANUAL INPUT</p>
+        <h3 class="proj-name">Personal AI<br>Virtual<br>Assistant</h3>
+        <p class="proj-tagline">// FULLY LOCAL · PRIVACY-FIRST · RUNS ENTIRELY ON YOUR OWN MACHINE</p>
         <p class="proj-desc">
-          A fully automated job application pipeline that finds listings, screens them for
-          scams using AI, writes personalised cover letters, sends applications, and monitors
-          inbox replies — all without any manual input. Once configured and running, the
-          entire job search cycle is handled by the bot.
+          A complete, local AI assistant that acts as a second version of you — knows your background,
+          speaks in your voice, manages your email, searches and applies to jobs, maintains your GitHub
+          portfolio, builds and demos projects, and grows smarter the more you use it.
+          No subscriptions, no cloud APIs, no credit card — everything runs on your own CPU.
         </p>
-
-        <!-- VIDEO PLACEHOLDER -->
         <div class="video-placeholder">
-          <span class="v-corner tl"></span>
-          <span class="v-corner tr"></span>
-          <span class="v-corner bl"></span>
-          <span class="v-corner br"></span>
-          <div class="play-ring">
-            <div class="play-triangle"></div>
-          </div>
-          <div class="video-label">
-            <strong>Demo Video</strong>
-            Coming soon — showcase in progress
-          </div>
+          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
+          <div class="play-ring"><div class="play-tri"></div></div>
+          <div class="video-label"><strong>Full Demo Video</strong>Coming soon — showcase in progress</div>
         </div>
-
         <div class="proj-dl">What it does</div>
         <ul class="proj-bullets">
-          <li>Scrapes and filters job listings automatically based on configurable criteria.</li>
-          <li>Uses AI to flag suspicious or scam postings before any application is sent.</li>
-          <li>Generates personalised cover letters per listing using the job description as context.</li>
-          <li>Sends applications and monitors the inbox for replies — end-to-end, no manual steps.</li>
+          <li><strong style="color:var(--text);font-weight:500">Chat AI Self</strong> — trained on your CV, notes, and Q&A pairs. Correct it and it permanently remembers.</li>
+          <li><strong style="color:var(--text);font-weight:500">Email Assistant</strong> — reads and summarises Gmail, drafts replies in your tone, auto-scans for interview replies.</li>
+          <li><strong style="color:var(--text);font-weight:500">Job Search & Auto-Apply</strong> — scrapes RemoteOK, We Work Remotely, and Jobicy; scores listings 0–100; generates tailored cover letters; sends applications by email.</li>
+          <li><strong style="color:var(--text);font-weight:500">GitHub Portfolio Manager</strong> — lists/creates repos, pushes AI-generated code, writes professional READMEs, builds complete projects from a one-line description.</li>
+          <li><strong style="color:var(--text);font-weight:500">Project Builder + Demo Video</strong> — describe an idea in plain English, AI writes the code, runs it, and produces an MP4 demo video.</li>
+          <li><strong style="color:var(--text);font-weight:500">Practice Engine</strong> — generates quiz questions from your own knowledge base, tracks scores per skill domain, identifies gaps.</li>
+          <li><strong style="color:var(--text);font-weight:500">Knowledge Manager</strong> — drop any file into <code>knowledge/</code> and it ingests within 30 seconds. Paste a URL and it scrapes and stores the content.</li>
         </ul>
         <div class="proj-stack">
-          <span class="stag">Python</span><span class="stag">Web Scraping</span>
-          <span class="stag">AI APIs</span><span class="stag">Email Automation</span>
-          <span class="stag">NLP</span><span class="stag">Task Scheduling</span>
+          <span class="stag">Python</span><span class="stag">Ollama</span><span class="stag">qwen2.5:14b</span>
+          <span class="stag">ChromaDB</span><span class="stag">sentence-transformers</span>
+          <span class="stag">Streamlit</span><span class="stag">Gmail IMAP/SMTP</span>
+          <span class="stag">GitHub REST API</span><span class="stag">RAG Pipeline</span>
+          <span class="stag">MoviePy</span><span class="stag">watchdog</span><span class="stag">Local LLM</span>
         </div>
       </div>
       <div class="proj-footer">
         <span class="proj-footer-label">Click anywhere to open repo</span>
-        <span class="proj-footer-link">github.com/jasper-0918/job-bot</span>
+        <span class="proj-footer-url">github.com/jasper-0918/personal-ai-assistant</span>
       </div>
     </a>
 
-    <!-- PROJECT 2: Free Job Agent -->
-    <a class="proj rv" href="https://github.com/jasper-0918/job-ai-agent-free" target="_blank" rel="noopener" style="transition-delay:.06s">
+    <!-- PROJECT 2: Job Bot -->
+    <a class="proj rv" href="https://github.com/jasper-0918/job-bot" target="_blank" rel="noopener" style="transition-delay:.05s">
       <span class="proj-arrow">View on GitHub</span>
       <div class="proj-inner">
         <div class="proj-meta">
-          <span class="proj-badge free">Free Tools Only</span>
+          <span class="proj-badge">Automation · Python · FastAPI</span>
+          <span class="proj-period">Personal Project · 2025</span>
+        </div>
+        <h3 class="proj-name">Autonomous Job<br>Hunting Bot</h3>
+        <p class="proj-tagline">// END-TO-END JOB APPLICATION PIPELINE · CLAUDE AI · WEB DASHBOARD</p>
+        <p class="proj-desc">
+          An autonomous AI-powered job hunting agent that scrapes multiple Philippine job platforms,
+          scores every listing 0–100 using Claude AI for match quality and scam detection,
+          generates a personalised cover letter per job, sends applications with your CV attached,
+          and monitors your Gmail inbox for replies — all viewable through a browser-based dashboard.
+        </p>
+        <div class="video-placeholder">
+          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
+          <div class="play-ring"><div class="play-tri"></div></div>
+          <div class="video-label"><strong>Demo Video</strong>Coming soon — showcase in progress</div>
+        </div>
+        <div class="proj-dl">What it does</div>
+        <ul class="proj-bullets">
+          <li>Scrapes Indeed PH, Jobstreet PH, and OnlineJobs.ph simultaneously using Playwright and BeautifulSoup.</li>
+          <li>Two-layer scam detection: keyword filter + Claude AI deep analysis catches fake listings, pay-to-apply scams, and MLM schemes.</li>
+          <li>Auto-applies to jobs scoring ≥78; flags 50–77 for your manual approval; ignores the rest.</li>
+          <li>Generates a unique personalised cover letter per job referencing the actual job description and your real background.</li>
+          <li>IMAP inbox scanner classifies replies as interview, assessment, rejected, or follow-up automatically.</li>
+          <li>Worker Agent — type a task in plain English and the AI completes it as you.</li>
+        </ul>
+        <div class="proj-stack">
+          <span class="stag">Python</span><span class="stag">Claude AI</span><span class="stag">FastAPI</span>
+          <span class="stag">Playwright</span><span class="stag">BeautifulSoup</span>
+          <span class="stag">SQLite</span><span class="stag">Gmail SMTP/IMAP</span>
+          <span class="stag">Web Dashboard</span><span class="stag">Scam Detection</span>
+        </div>
+      </div>
+      <div class="proj-footer">
+        <span class="proj-footer-label">Click anywhere to open repo</span>
+        <span class="proj-footer-url">github.com/jasper-0918/job-bot</span>
+      </div>
+    </a>
+
+    <!-- PROJECT 3: Free Job Agent -->
+    <a class="proj rv" href="https://github.com/jasper-0918/job-ai-agent-free" target="_blank" rel="noopener" style="transition-delay:.08s">
+      <span class="proj-arrow">View on GitHub</span>
+      <div class="proj-inner">
+        <div class="proj-meta">
+          <span class="proj-badge free">Free Tools Only · No Paid APIs</span>
           <span class="proj-period">Personal Project · 2025</span>
         </div>
         <h3 class="proj-name">Job AI Agent<br>(Free Tools Only)</h3>
         <p class="proj-tagline">// SAME PIPELINE · REBUILT WITH ZERO PAID DEPENDENCIES</p>
         <p class="proj-desc">
           The same autonomous job hunting pipeline — rebuilt entirely using free, open-source,
-          and no-credit-card-required tools. This version proves the automation works
-          without any paid API subscriptions, making it accessible for any budget.
+          and no-credit-card-required tools. Identical functionality with zero API subscription costs.
+          A practical proof that real automation doesn't require expensive infrastructure.
         </p>
-
-        <!-- VIDEO PLACEHOLDER -->
         <div class="video-placeholder">
-          <span class="v-corner tl"></span>
-          <span class="v-corner tr"></span>
-          <span class="v-corner bl"></span>
-          <span class="v-corner br"></span>
-          <div class="play-ring">
-            <div class="play-triangle"></div>
-          </div>
-          <div class="video-label">
-            <strong>Demo Video</strong>
-            Coming soon — showcase in progress
-          </div>
+          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
+          <div class="play-ring"><div class="play-tri"></div></div>
+          <div class="video-label"><strong>Demo Video</strong>Coming soon — showcase in progress</div>
         </div>
-
         <div class="proj-dl">Why it matters</div>
         <ul class="proj-bullets">
-          <li>Identical core functionality — scraping, screening, applying, monitoring — zero paid APIs.</li>
-          <li>Runs entirely on free-tier services and open-source models, no billing required.</li>
+          <li>Identical core functionality — scraping, AI screening, cover letters, applying, inbox monitoring.</li>
+          <li>Runs entirely on free-tier services and open-source models — no billing, no quotas, no lock-in.</li>
           <li>Demonstrates cost-efficient automation for clients on any budget.</li>
         </ul>
         <div class="proj-stack">
@@ -481,12 +465,12 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="proj-footer">
         <span class="proj-footer-label">Click anywhere to open repo</span>
-        <span class="proj-footer-link">github.com/jasper-0918/job-ai-agent-free</span>
+        <span class="proj-footer-url">github.com/jasper-0918/job-ai-agent-free</span>
       </div>
     </a>
 
-    <!-- PROJECT 3: Document Organizer -->
-    <a class="proj rv" href="https://github.com/jasper-0918/ai-document-organizer" target="_blank" rel="noopener" style="transition-delay:.1s">
+    <!-- PROJECT 4: Document Organizer -->
+    <a class="proj rv" href="https://github.com/jasper-0918/ai-document-organizer" target="_blank" rel="noopener" style="transition-delay:.11s">
       <span class="proj-arrow">View on GitHub</span>
       <div class="proj-inner">
         <div class="proj-meta">
@@ -496,34 +480,23 @@ footer a:hover{color:var(--accent)}
         <h3 class="proj-name">AI Document<br>Organizer</h3>
         <p class="proj-tagline">// ZERO-SHOT FILE CLASSIFICATION · HANDS-FREE FOLDER MANAGEMENT</p>
         <p class="proj-desc">
-          A Python CLI tool that automatically classifies and organises files using
-          zero-shot NLP and image scene recognition — no manual labeling, no predefined rules.
-          Set it to watch a folder and it handles everything: reading document content,
-          recognising images, detecting duplicates, and filing everything correctly.
+          A Python CLI tool that automatically classifies and organises files using zero-shot NLP
+          and image scene recognition — no manual labeling, no predefined rules. Set it to watch
+          mode and it handles everything: reading document content, recognising images,
+          detecting duplicates, and filing correctly.
         </p>
-
-        <!-- VIDEO PLACEHOLDER -->
         <div class="video-placeholder">
-          <span class="v-corner tl"></span>
-          <span class="v-corner tr"></span>
-          <span class="v-corner bl"></span>
-          <span class="v-corner br"></span>
-          <div class="play-ring">
-            <div class="play-triangle"></div>
-          </div>
-          <div class="video-label">
-            <strong>Demo Video</strong>
-            Coming soon — showcase in progress
-          </div>
+          <span class="vc tl"></span><span class="vc tr"></span><span class="vc bl"></span><span class="vc br"></span>
+          <div class="play-ring"><div class="play-tri"></div></div>
+          <div class="video-label"><strong>Demo Video</strong>Coming soon — showcase in progress</div>
         </div>
-
         <div class="proj-dl">What it does</div>
         <ul class="proj-bullets">
-          <li>Classifies documents by reading their content using <code>facebook/bart-large-mnli</code> — no training data needed.</li>
+          <li>Classifies documents by content using <code>facebook/bart-large-mnli</code> via HuggingFace — no training data needed.</li>
           <li>Recognises image types by visual content using OpenCV scene recognition.</li>
           <li>Detects and skips duplicate images using perceptual hashing.</li>
           <li>Runs on a schedule with <code>--watch</code> mode — fully hands-free once set up.</li>
-          <li>SQLite history layer ensures files aren't processed twice on repeat runs.</li>
+          <li>SQLite history layer ensures files aren't re-processed on repeat runs.</li>
         </ul>
         <div class="proj-stack">
           <span class="stag">Python</span><span class="stag">HuggingFace Transformers</span>
@@ -534,60 +507,79 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="proj-footer">
         <span class="proj-footer-label">Click anywhere to open repo</span>
-        <span class="proj-footer-link">github.com/jasper-0918/ai-document-organizer</span>
+        <span class="proj-footer-url">github.com/jasper-0918/ai-document-organizer</span>
       </div>
     </a>
 
-    <!-- PROJECT 4: Thesis -->
-    <a class="proj rv" href="https://github.com/jasper-0918" target="_blank" rel="noopener" style="transition-delay:.14s">
-      <span class="proj-arrow">View on GitHub</span>
+    <!-- PROJECT 5: Thesis — PDF instead of video -->
+    <div class="proj thesis-proj rv" style="transition-delay:.14s">
       <div class="proj-inner">
         <div class="proj-meta">
           <span class="proj-badge thesis">Thesis — La Salle University Ozamiz</span>
           <span class="proj-period">Apr 2025 – Nov 2025</span>
         </div>
         <h3 class="proj-name">Plastic Bottle<br>Segregation<br>System</h3>
-        <p class="proj-tagline">// REAL-TIME EDGE AI · RASPBERRY PI 5 · ON-DEVICE ML</p>
+        <p class="proj-tagline">// REAL-TIME EDGE AI · RASPBERRY PI 5 · ON-DEVICE ML · NO CLOUD</p>
         <p class="proj-desc">
-          A computer vision system that classifies plastic bottles by resin type (PET, HDPE,
-          LDPE, PP, UNCLASSIFIED) in real time and drives mechanical actuators to physically
-          sort them — no cloud, no internet required. A complete end-to-end project covering
-          model training, embedded deployment, hardware integration, and real-world validation.
+          A computer vision system that classifies plastic bottles by resin type — PET, HDPE,
+          LDPE, PP, UNCLASSIFIED — in real time and drives mechanical actuators to physically
+          sort them. Runs entirely on a Raspberry Pi 5 with no cloud dependency. A complete
+          end-to-end project: model training, embedded deployment, hardware integration, and
+          real-world prototype validation.
         </p>
 
-        <!-- VIDEO PLACEHOLDER -->
-        <div class="video-placeholder">
-          <span class="v-corner tl"></span>
-          <span class="v-corner tr"></span>
-          <span class="v-corner bl"></span>
-          <span class="v-corner br"></span>
-          <div class="play-ring">
-            <div class="play-triangle"></div>
+        <!-- PDF EMBED -->
+        <div class="pdf-section" onclick="event.stopPropagation()">
+          <div class="pdf-label-row">
+            <span class="pdf-label">Full Thesis Paper</span>
+            <a class="pdf-open-link"
+               href="https://raw.githubusercontent.com/jasper-0918/jasper-0918/main/Automatic%20Plastic%20Bottle%20Segregation%20System_compressed.pdf"
+               target="_blank" rel="noopener"
+               onclick="event.stopPropagation()">
+              Open PDF ↗
+            </a>
           </div>
-          <div class="video-label">
-            <strong>Demo Video</strong>
-            Coming soon — showcase in progress
+          <div class="pdf-wrap" id="pdf-wrap">
+            <iframe
+              id="pdf-iframe"
+              src="https://docs.google.com/viewer?url=https%3A%2F%2Fraw.githubusercontent.com%2Fjasper-0918%2Fjasper-0918%2Fmain%2FAutomatic%2520Plastic%2520Bottle%2520Segregation%2520System_compressed.pdf&embedded=true"
+              title="Automatic Plastic Bottle Segregation System — Thesis Paper"
+              loading="lazy"
+              allow="fullscreen">
+            </iframe>
+            <div class="pdf-fallback" id="pdf-fallback">
+              <span>📄</span>
+              <span>PDF preview unavailable in this browser.</span>
+              <a href="https://raw.githubusercontent.com/jasper-0918/jasper-0918/main/Automatic%20Plastic%20Bottle%20Segregation%20System_compressed.pdf"
+                 target="_blank" rel="noopener"
+                 onclick="event.stopPropagation()">
+                Download / Open PDF directly ↗
+              </a>
+            </div>
           </div>
         </div>
 
         <div class="proj-dl">Technical highlights</div>
         <ul class="proj-bullets">
-          <li>Trained MobileNet CNN with TensorFlow and Edge Impulse — &gt;90% classification accuracy across 5 plastic types.</li>
-          <li>Deployed fully on-device on a Raspberry Pi 5 — inference runs with no cloud dependency.</li>
-          <li>Integrated servo motor actuators driven by model output for physical bottle sorting.</li>
+          <li>Trained MobileNet CNN with TensorFlow and Edge Impulse — &gt;90% classification accuracy across 5 plastic resin types.</li>
+          <li>Deployed fully on-device on Raspberry Pi 5 — real-time inference with no cloud round-trip.</li>
+          <li>Integrated servo motor actuators driven by model output for autonomous physical bottle sorting.</li>
         </ul>
         <div class="proj-stack">
           <span class="stag">Python</span><span class="stag">TensorFlow Lite</span>
           <span class="stag">Edge Impulse</span><span class="stag">OpenCV</span>
           <span class="stag">Raspberry Pi 5</span><span class="stag">MobileNet</span>
-          <span class="stag">On-device ML</span>
+          <span class="stag">On-device ML</span><span class="stag">Servo Control</span>
         </div>
       </div>
-      <div class="proj-footer">
-        <span class="proj-footer-label">Click anywhere to open repo</span>
-        <span class="proj-footer-link">github.com/jasper-0918</span>
+      <div class="proj-footer" style="cursor:default">
+        <span class="proj-footer-label">Thesis Research Paper — La Salle University Ozamiz</span>
+        <a href="https://github.com/jasper-0918/jasper-0918" target="_blank" rel="noopener"
+           class="proj-footer-url" onclick="event.stopPropagation()">
+          github.com/jasper-0918/jasper-0918
+        </a>
       </div>
-    </a>
+    </div>
 
   </div>
 </section>
@@ -602,40 +594,164 @@ footer a:hover{color:var(--accent)}
       <h2 class="sec-title">Skills</h2>
       <div class="sec-rule"></div>
     </div>
-    <div class="skills-grid rv">
-      <div class="skill-block">
-        <div class="skill-lbl">Automation Stack</div>
-        <div class="pills">
-          <span class="pill">Python</span><span class="pill">Web Scraping</span>
-          <span class="pill">Email Automation</span><span class="pill">Task Scheduling</span>
-          <span class="pill">CLI Tools</span><span class="pill">File Management</span>
-        </div>
+
+    <!-- GROUP A: VA & Automation Tools -->
+    <div style="margin-bottom:2px">
+      <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sub);padding-bottom:1.25rem;margin-bottom:2px">
+        Virtual Assistant &amp; Automation Platforms
       </div>
-      <div class="skill-block">
-        <div class="skill-lbl">AI &amp; NLP</div>
-        <div class="pills">
-          <span class="pill">HuggingFace</span><span class="pill">Zero-shot NLP</span>
-          <span class="pill">TensorFlow</span><span class="pill">Edge Impulse</span>
-          <span class="pill">OpenCV</span><span class="pill">On-device ML</span>
+      <div class="skills-grid rv">
+        <div class="skill-block">
+          <div class="skill-lbl">No-Code Automation</div>
+          <div class="pills">
+            <span class="pill">Zapier</span>
+            <span class="pill">Make (Integromat)</span>
+            <span class="pill">n8n</span>
+            <span class="pill">IFTTT</span>
+            <span class="pill">Pabbly Connect</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-lbl">Data &amp; Storage</div>
-        <div class="pills">
-          <span class="pill">SQLite</span><span class="pill">MySQL</span>
-          <span class="pill">pandas</span><span class="pill">numpy</span>
-          <span class="pill">CSV / Excel</span><span class="pill">phpMyAdmin</span>
+        <div class="skill-block">
+          <div class="skill-lbl">Productivity &amp; PM</div>
+          <div class="pills">
+            <span class="pill">Notion</span>
+            <span class="pill">Trello</span>
+            <span class="pill">Asana</span>
+            <span class="pill">ClickUp</span>
+            <span class="pill">Airtable</span>
+            <span class="pill">Monday.com</span>
+          </div>
         </div>
-      </div>
-      <div class="skill-block">
-        <div class="skill-lbl">Languages &amp; Tools</div>
-        <div class="pills">
-          <span class="pill">Python</span><span class="pill">C / C++</span>
-          <span class="pill">JavaScript</span><span class="pill">Git &amp; GitHub</span>
-          <span class="pill">Linux</span><span class="pill">VS Code</span>
+        <div class="skill-block">
+          <div class="skill-lbl">Communication &amp; CRM</div>
+          <div class="pills">
+            <span class="pill">Slack</span>
+            <span class="pill">Gmail / IMAP</span>
+            <span class="pill">Google Calendar</span>
+            <span class="pill">Zoom</span>
+            <span class="pill">HubSpot (basic)</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">Google &amp; Office Suite</div>
+          <div class="pills">
+            <span class="pill">Google Docs</span>
+            <span class="pill">Google Sheets</span>
+            <span class="pill">Google Drive</span>
+            <span class="pill">Microsoft Excel</span>
+            <span class="pill">Microsoft Word</span>
+            <span class="pill">PowerPoint</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- GROUP B: VA Skills -->
+    <div style="margin-top:2px;margin-bottom:2px">
+      <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sub);padding:2rem 0 1.25rem">
+        Virtual Assistant Skills
+      </div>
+      <div class="skills-grid rv" style="transition-delay:.08s">
+        <div class="skill-block">
+          <div class="skill-lbl">Admin Support</div>
+          <div class="pills">
+            <span class="pill">Email Management</span>
+            <span class="pill">Calendar Management</span>
+            <span class="pill">Data Entry</span>
+            <span class="pill">File Organisation</span>
+            <span class="pill">Travel Research</span>
+            <span class="pill">Meeting Scheduling</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">Research &amp; Data</div>
+          <div class="pills">
+            <span class="pill">Web Research</span>
+            <span class="pill">Lead Generation</span>
+            <span class="pill">Data Scraping</span>
+            <span class="pill">Spreadsheet Management</span>
+            <span class="pill">Report Generation</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">Content &amp; Comms</div>
+          <div class="pills">
+            <span class="pill">Copywriting</span>
+            <span class="pill">Email Drafting</span>
+            <span class="pill">Proofreading</span>
+            <span class="pill">Documentation</span>
+            <span class="pill">Technical Writing</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">Soft Skills</div>
+          <div class="pills">
+            <span class="pill">Remote-Ready</span>
+            <span class="pill">Self-Directed</span>
+            <span class="pill">Clear Communication</span>
+            <span class="pill">Detail-Oriented</span>
+            <span class="pill">Fast Learner</span>
+            <span class="pill">Reliable &amp; Punctual</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GROUP C: Technical / Dev Skills -->
+    <div style="margin-top:2px">
+      <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:var(--sub);padding:2rem 0 1.25rem">
+        Technical &amp; Development Skills
+      </div>
+      <div class="skills-grid rv" style="transition-delay:.14s">
+        <div class="skill-block">
+          <div class="skill-lbl">Python Automation</div>
+          <div class="pills">
+            <span class="pill">Web Scraping</span>
+            <span class="pill">Email Automation</span>
+            <span class="pill">Task Scheduling</span>
+            <span class="pill">CLI Tools</span>
+            <span class="pill">File Management</span>
+            <span class="pill">Playwright</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">AI &amp; NLP</div>
+          <div class="pills">
+            <span class="pill">Ollama (Local LLM)</span>
+            <span class="pill">HuggingFace</span>
+            <span class="pill">RAG Pipelines</span>
+            <span class="pill">ChromaDB</span>
+            <span class="pill">Zero-shot NLP</span>
+            <span class="pill">OpenCV</span>
+            <span class="pill">TensorFlow</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">Data &amp; Storage</div>
+          <div class="pills">
+            <span class="pill">SQLite</span>
+            <span class="pill">MySQL</span>
+            <span class="pill">pandas</span>
+            <span class="pill">numpy</span>
+            <span class="pill">CSV / Excel</span>
+            <span class="pill">ChromaDB</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-lbl">Languages &amp; Tools</div>
+          <div class="pills">
+            <span class="pill">Python</span>
+            <span class="pill">C / C++</span>
+            <span class="pill">JavaScript</span>
+            <span class="pill">FastAPI</span>
+            <span class="pill">Git &amp; GitHub</span>
+            <span class="pill">Linux</span>
+            <span class="pill">VS Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -702,7 +818,7 @@ footer a:hover{color:var(--accent)}
     <div class="contact-grid">
       <div class="rv">
         <h3 class="contact-heading">Let's automate<br>your workflow.</h3>
-        <p class="contact-sub">Looking for automation VA work, Python scripting projects, or AI-assisted tool development. I work remotely, communicate clearly, and deliver documented, working code.</p>
+        <p class="contact-sub">Open to automation VA work, Python scripting, AI tool development, and remote admin support. I work remotely, communicate clearly, and deliver documented, working solutions.</p>
         <div>
           <a class="contact-row" href="mailto:jasper.paitan0918@gmail.com"><span class="ck">Email</span><span class="cv">jasper.paitan0918@gmail.com</span></a>
           <a class="contact-row" href="tel:+639494079802"><span class="ck">Phone</span><span class="cv">+63 949 407 9802</span></a>
@@ -740,11 +856,35 @@ footer a:hover{color:var(--accent)}
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('stuck',scrollY>60),{passive:true});
 
-// Scroll reveal
+// Reveal
 const io=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})
-},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+},{threshold:.04,rootMargin:'0px 0px -40px 0px'});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// PDF iframe error detection — show fallback if Google Docs viewer fails
+const iframe=document.getElementById('pdf-iframe');
+const fallback=document.getElementById('pdf-fallback');
+if(iframe){
+  // If iframe takes too long or errors, show fallback
+  let loaded=false;
+  iframe.addEventListener('load',()=>{ loaded=true; });
+  setTimeout(()=>{
+    if(!loaded){
+      iframe.style.display='none';
+      fallback.style.display='flex';
+    }
+  },8000);
+  iframe.addEventListener('error',()=>{
+    iframe.style.display='none';
+    fallback.style.display='flex';
+  });
+}
+
+// Thesis card: not a link so no pointer issues — just stop clicks on PDF from doing anything
+document.querySelectorAll('.thesis-proj').forEach(el=>{
+  el.addEventListener('click', e => e.preventDefault());
+});
 
 // Contact form
 document.getElementById('cf').addEventListener('submit',function(e){
@@ -752,12 +892,9 @@ document.getElementById('cf').addEventListener('submit',function(e){
   const n=document.getElementById('fn').value,
         em=document.getElementById('fe').value,
         m=document.getElementById('fm').value;
-  window.open(
-    'mailto:jasper.paitan0918@gmail.com?subject='
+  window.open('mailto:jasper.paitan0918@gmail.com?subject='
     +encodeURIComponent('Work Enquiry from '+n)
-    +'&body='+encodeURIComponent('Name: '+n+'\nEmail: '+em+'\n\nEnquiry:\n'+m),
-    '_blank'
-  );
+    +'&body='+encodeURIComponent('Name: '+n+'\nEmail: '+em+'\n\nEnquiry:\n'+m),'_blank');
   document.getElementById('fok').style.display='block';
   this.reset();
   setTimeout(()=>{document.getElementById('fok').style.display='none'},5000);
